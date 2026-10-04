@@ -1,0 +1,32 @@
+{
+  "openPipeline": 86400,
+  "dealsWon": 24,
+  "averageDealSize": 11850,
+  "winRate": 38.6,
+  "contacts": 128,
+  "companies": 24,
+  "openTasks": 18,
+  "overdueTasks": 3,
+  "completedTasks": 36,
+  "dealsByStage": [
+    { "_id": "Qualification", "count": 12 },
+    { "_id": "Proposal", "count": 8 },
+    { "_id": "Negotiation", "count": 5 },
+    { "_id": "Won", "count": 9 }
+  ],
+  "trend": [
+    { "day": "Mon", "leads": 5, "won": 2 },
+    { "day": "Tue", "leads": 8, "won": 3 },
+    { "day": "Wed", "leads": 6, "won": 4 },
+    { "day": "Thu", "leads": 11, "won": 5 },
+    { "day": "Fri", "leads": 9, "won": 4 },
+    { "day": "Sat", "leads": 14, "won": 7 },
+    { "day": "Sun", "leads": 12, "won": 8 }
+  ],
+  "activities": [
+    { "initials": "AM", "name": "Ayesha Malik", "action": "added contact", "target": "Samina Ahmed", "when": "12 min ago" },
+    { "initials": "HK", "name": "Hassan Khan", "action": "moved deal to", "target": "Proposal", "when": "48 min ago" },
+    { "initials": "ZA", "name": "Zara Ali", "action": "completed task", "target": "Client follow-up", "when": "2 hours ago" },
+    { "initials": "UM", "name": "Usman Mir", "action": "added company", "target": "Northstar Labs", "when": "Yesterday" }
+  ]
+}
