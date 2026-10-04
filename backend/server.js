@@ -9,13 +9,23 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 const PORT = process.env.PORT || process.env.Server_PORT || 5000;
+const allowedOrigins = (process.env.CLIENT_ORIGIN || "http://localhost:5173,http://localhost:5174")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.disable("x-powered-by");
 app.use(helmet());
 
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
-  methods: ["GET", "POST", "PATCH", "DELETE"],
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || /^https:\/\/.*\.vercel\.app$/.test(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
