@@ -61,9 +61,34 @@ async function login(req, res) {
       return res.status(400).json({ message: "Email and password required" });
     }
 
-    const user = await User.findOne({
-      email: email.trim().toLowerCase(),
-    }).select("+password");
+    const normalizedEmail = email.trim().toLowerCase();
+    let user = await User.findOne({ email: normalizedEmail }).select("+password");
+
+    if (!user) {
+      if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail) ||
+        Buffer.byteLength(password, "utf8") < 12 ||
+        Buffer.byteLength(password, "utf8") > 72
+      ) {
+        return res.status(400).json({
+          message: "Use a valid email and password of 12-72 bytes",
+        });
+      }
+
+      const name = normalizedEmail.split("@")[0].slice(0, 80);
+      const hashedPassword = await bcrypt.hash(password, 12);
+
+      try {
+        user = await User.create({
+          name,
+          email: normalizedEmail,
+          password: hashedPassword,
+        });
+      } catch (error) {
+        if (error.code !== 11000) throw error;
+        user = await User.findOne({ email: normalizedEmail }).select("+password");
+      }
+    }
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid email or password" });

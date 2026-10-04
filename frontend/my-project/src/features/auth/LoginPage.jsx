@@ -70,7 +70,7 @@ export default function LoginPage() {
             Sign in to your account
           </h2>
           <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            Use the account you created in the backend.
+            Sign in with your account, or use a new email and a 12-72 byte password to create one.
           </p>
 
           <div className="mt-6 space-y-4">
