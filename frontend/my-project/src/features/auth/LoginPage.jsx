@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { login } from './authApi';
 import { useAuth } from '../../context/AuthContext';
 
@@ -70,7 +70,7 @@ export default function LoginPage() {
             Sign in to your account
           </h2>
           <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            Sign in with your account, or use a new email and a 12-72 byte password to create one.
+            Any email and password works. Your workspace is stored on this device.
           </p>
 
           <div className="mt-6 space-y-4">
@@ -141,22 +141,8 @@ export default function LoginPage() {
             </span>
           </button>
 
-          <div className="my-6 flex items-center gap-3">
-            <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
-            <span className="text-[11px] font-medium uppercase tracking-widest text-slate-400 dark:text-slate-500">or</span>
-            <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
-          </div>
-
-          <Link
-            to="/register"
-            className="group flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-400 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-600 dark:hover:text-emerald-400 hover:shadow-md active:scale-[0.98]"
-          >
-            <span className="text-base transition-transform duration-300 group-hover:rotate-90 group-hover:scale-125">＋</span>
-            <span className="transition-all duration-300 group-hover:tracking-wide">Create a new account</span>
-          </Link>
-
           <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-500">
-            Protected by BJ Technologies · Secure session
+            Your CRM workspace is saved on this device
           </p>
         </form>
       </section>

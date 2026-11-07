@@ -1,16 +1,20 @@
-# React + Vite
+# BJ Technologies CRM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The CRM runs entirely in the browser; it does not require a backend or database.
+Sign in with any email address and password to open a local session. Contacts,
+companies, deals, tasks, and profile details are saved in this browser's
+`localStorage`, scoped to the signed-in email address.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+npm install
+npm run dev
+```
 
-## React Compiler
+Use `npm run build` to create the production site in `dist/`. Deploy the
+contents of `dist/` to any static hosting provider. All application routes
+should be rewritten to `index.html` for direct navigation and page refreshes.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Local CRM data stays on this device and is not synchronized or backed up. Clear
+this browser's site data to remove it.

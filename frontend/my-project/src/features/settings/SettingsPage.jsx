@@ -7,9 +7,10 @@ const defaults = { name: 'Ayesha Khan', email: 'ayesha.test01@example.com', week
 export default function SettingsPage() {
   const { theme, toggleTheme } = useTheme();
   const { user, setUser } = useAuth();
+  const settingsStorageKey = `meridian-settings:${user?._id || encodeURIComponent(user?.email || 'guest')}`;
   const [settings, setSettings] = useState(() => {
     try {
-      const stored = JSON.parse(localStorage.getItem('meridian-settings') || '{}');
+      const stored = JSON.parse(localStorage.getItem(settingsStorageKey) || '{}');
       return { ...defaults, ...stored, name: stored.name || user?.name || defaults.name, email: stored.email || user?.email || defaults.email };
     } catch { return defaults; }
   });
@@ -22,7 +23,7 @@ export default function SettingsPage() {
 
   function save() {
     // 1) localStorage mein save
-    localStorage.setItem('meridian-settings', JSON.stringify(settings));
+    localStorage.setItem(settingsStorageKey, JSON.stringify(settings));
 
     // 2) AuthContext mein bhi update — sidebar/topbar turant change ho
     setUser(prev => ({ ...(prev || {}), name: settings.name, email: settings.email }));
