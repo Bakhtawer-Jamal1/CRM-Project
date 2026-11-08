@@ -7,6 +7,7 @@ import DashboardPage from './features/dashboard/DashboardPage';
 import ContactsPage from './features/contacts/ContactsPage';
 import CompaniesPage from './features/companies/CompaniesPage';
 import DealsPage from './features/deals/DealsPage';
+import EmployeesPage from './features/employees/EmployeesPage';
 import TasksPage from './features/tasks/TasksPage';
 import SettingsPage from './features/settings/SettingsPage';
 import ProfilePage from './features/profile/ProfilePage';
@@ -47,6 +48,7 @@ export default function App() {
               <Route path="contacts" element={<ContactsPage />} />
               <Route path="companies" element={<CompaniesPage />} />
               <Route path="deals" element={<DealsPage />} />
+              <Route path="employees" element={<EmployeesPage />} />
               <Route path="tasks" element={<TasksPage />} />
               <Route path="profile" element={<ProfilePage />} />
               <Route path="settings" element={<SettingsPage />} />

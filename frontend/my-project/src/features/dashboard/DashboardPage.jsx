@@ -29,11 +29,11 @@ function TrendChart({ trend }) {
         {[44, 86, 128, 170].map(y => (
           <line key={y} x1="44" x2="610" y1={y} y2={y} className="stroke-slate-200 dark:stroke-slate-800" strokeWidth="1" strokeDasharray="4 4" />
         ))}
-        <polygon points={`50,176 ${leadPoints} 578,176`} fill="url(#lead-area)" className="animate-[fadeIn_0.8s_ease-out_both]" style={{ animationDelay: '400ms' }} />
-        <polyline points={leadPoints} fill="none" stroke="#29966a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="animate-[fadeIn_0.8s_ease-out_both]" style={{ animationDelay: '500ms' }} />
-        <polyline points={wonPoints} fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="6 4" className="animate-[fadeIn_0.8s_ease-out_both]" style={{ animationDelay: '600ms' }} />
+        <polygon points={`50,176 ${leadPoints} 578,176`} fill="url(#lead-area)" className="dashboard-chart-area" style={{ animationDelay: '350ms' }} />
+        <polyline points={leadPoints} fill="none" stroke="#29966a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="dashboard-chart-line" style={{ animationDelay: '450ms' }} />
+        <polyline points={wonPoints} fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="6 4" className="dashboard-chart-line" style={{ animationDelay: '650ms' }} />
         {trend.map((item, index) => (
-          <g key={item.day || index} className="animate-[fadeIn_0.5s_ease-out_both]" style={{ animationDelay: `${700 + index * 60}ms` }}>
+          <g key={item.day || index} className="dashboard-chart-point" style={{ animationDelay: `${850 + index * 70}ms` }}>
             <circle cx={50 + index * 88} cy={176 - (Number(item.leads) / maxLead) * 132} r="4" fill="#29966a" />
             <circle cx={50 + index * 88} cy={176 - (Number(item.won) / maxWon) * 132} r="3.5" fill="#6366f1" />
           </g>
@@ -58,7 +58,7 @@ function Ring({ completed, total }) {
     <div className="relative flex h-32 w-32 shrink-0 items-center justify-center animate-[fadeIn_0.6s_ease-out_both]" style={{ animationDelay: '300ms' }}>
       <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" role="img" aria-label={`${completed} of ${total} tasks complete`}>
         <circle cx="60" cy="60" r="48" fill="none" className="stroke-slate-200 dark:stroke-slate-800" strokeWidth="10" />
-        <circle cx="60" cy="60" r="48" fill="none" stroke="url(#ring-gradient)" strokeWidth="10" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={dashOffset} className="transition-all duration-1000 ease-out" />
+        <circle cx="60" cy="60" r="48" fill="none" stroke="url(#ring-gradient)" strokeWidth="10" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={dashOffset} className="dashboard-ring-progress" style={{ '--ring-offset': dashOffset }} />
         <defs>
           <linearGradient id="ring-gradient" x1="0" x2="1" y1="0" y2="1">
             <stop offset="0" stopColor="#6366f1" />
@@ -94,17 +94,20 @@ export default function DashboardPage() {
     const actual = live || {};
     return {
       ...demo, ...actual,
-      openPipeline: Number(actual.openPipeline) || demo.openPipeline,
-      contacts: Number(actual.contacts) || demo.contacts,
-      companies: Number(actual.companies) || demo.companies,
-      openTasks: Number(actual.openTasks) || demo.openTasks,
-      overdueTasks: Number(actual.overdueTasks) || demo.overdueTasks,
-      completedTasks: Number(actual.completedTasks) || demo.completedTasks,
+      openPipeline: Number(actual.openPipeline ?? demo.openPipeline),
+      contacts: Number(actual.contacts ?? demo.contacts),
+      companies: Number(actual.companies ?? demo.companies),
+      openTasks: Number(actual.openTasks ?? demo.openTasks),
+      overdueTasks: Number(actual.overdueTasks ?? demo.overdueTasks),
+      completedTasks: Number(actual.completedTasks ?? demo.completedTasks),
       dealsByStage: actual.dealsByStage?.length ? actual.dealsByStage : demo.dealsByStage,
+      trend: actual.trend?.length ? actual.trend : demo.trend,
+      activities: actual.activities?.length ? actual.activities : demo.activities,
     };
   }, [live, demo]);
 
-  const demoUsed = demoAvailable && (!live || !live.dealsByStage?.length || !live.trend?.length || !live.activities?.length || ['contacts', 'companies', 'openTasks'].some(key => !Number(live[key])));
+  const demoUsed = Boolean(live?.isSample) || (demoAvailable && (!live || !live.dealsByStage?.length || !live.trend?.length || !live.activities?.length || ['contacts', 'companies', 'openTasks'].some(key => !Number(live[key]))));
+  const todayLabel = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
   const stats = [
     { label: 'Open pipeline', value: money(view.openPipeline), note: '+12% from last month', tone: 'green', mark: '$' },
     { label: 'Deals won', value: Number(view.dealsWon || 0).toLocaleString(), note: '+8% from last month', tone: 'blue', mark: '↗' },
@@ -125,14 +128,14 @@ export default function DashboardPage() {
     <section className="animate-[fadeIn_0.5s_ease-out]">
       <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="animate-[slideUp_0.5s_ease-out_both]">
-          <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-indigo-500 dark:text-indigo-400">MONDAY, YOUR CRM AT A GLANCE</p>
+          <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-indigo-500 dark:text-indigo-400">{todayLabel} · YOUR CRM AT A GLANCE</p>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white transition-all duration-300 hover:tracking-wide sm:text-3xl">Good morning, {firstName}</h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Here is what is happening across your relationships and pipeline.</p>
         </div>
         <div className="flex flex-wrap items-center gap-3 animate-[slideUp_0.5s_ease-out_both]" style={{ animationDelay: '100ms' }}>
           <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
             <span className={`inline-block h-2 w-2 rounded-full ${demoUsed ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500 animate-pulse'}`} />
-            {demoUsed ? 'Demo preview data' : 'Live CRM data'}
+            {live?.isSample ? 'Sample CRM data' : demoUsed ? 'Demo preview data' : 'Your CRM data'}
           </div>
           <Link to="/deals" className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/40 active:scale-95">
             <span className="text-base transition-transform duration-300 group-hover:rotate-90 group-hover:scale-125">＋</span>
@@ -149,8 +152,8 @@ export default function DashboardPage() {
 
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
-          <article key={stat.label} className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl animate-[slideUp_0.5s_ease-out_both]" style={{ animationDelay: `${index * 100}ms` }}>
-            <div className={`pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-gradient-to-br ${toneClasses[stat.tone]} blur-2xl opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-125`} />
+          <article key={stat.label} className="group dashboard-stat-card relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl" style={{ animationDelay: `${index * 100}ms` }}>
+            <div className={`dashboard-stat-glow pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-gradient-to-br ${toneClasses[stat.tone]} blur-2xl opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-125`} />
             <div className="relative flex items-start justify-between">
               <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{stat.label}</span>
               <i className={`flex h-7 w-7 items-center justify-center rounded-lg ring-1 ring-inset text-sm not-italic transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${toneClasses[stat.tone]}`}>{stat.mark}</i>
@@ -225,7 +228,7 @@ export default function DashboardPage() {
                   <b className="text-slate-900 dark:text-white">{stage.count}</b>
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-                  <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-1000 ease-out" style={{ width: `${Math.max(3, Number(stage.count || 0) / maxStage * 100)}%` }} />
+                  <div className="dashboard-pipeline-bar h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600" style={{ width: `${Math.max(3, Number(stage.count || 0) / maxStage * 100)}%`, animationDelay: `${550 + index * 100}ms` }} />
                 </div>
               </div>
             ))}
@@ -264,7 +267,9 @@ export default function DashboardPage() {
 
       {demoUsed && (
         <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-500 animate-[fadeIn_0.5s_ease-out]">
-          Sample values are for preview only. Real CRM values appear when records exist.
+          {live?.isSample
+            ? 'Example CRM records are saved on this device. Edit or delete them anytime.'
+            : 'Sample values are for preview only. Real CRM values appear when records exist.'}
         </p>
       )}
     </section>

@@ -7,3 +7,88 @@ html { min-width: 320px; min-height: 100%; background: var(--canvas, #f5f7f5); }
 body { min-width: 320px; min-height: 100vh; margin: 0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-synthesis: none; text-rendering: optimizeLegibility; }
 button, input, select, textarea { font: inherit; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid #49a77a; outline-offset: 2px; }
+
+@keyframes dashboard-enter {
+  from { opacity: 0; transform: translateY(18px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes dashboard-glow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(.9); opacity: .45; }
+  50% { transform: translate3d(-12px, 10px, 0) scale(1.12); opacity: .8; }
+}
+
+@keyframes dashboard-chart-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes dashboard-chart-area {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dashboard-point-pop {
+  from { opacity: 0; transform: scale(.2); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dashboard-ring-fill {
+  from { stroke-dashoffset: 302; }
+  to { stroke-dashoffset: var(--ring-offset); }
+}
+
+@keyframes dashboard-bar-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.dashboard-stat-card {
+  animation: dashboard-enter .65s cubic-bezier(.2, .75, .25, 1) both;
+}
+
+.dashboard-stat-glow {
+  animation: dashboard-glow 7s ease-in-out infinite;
+}
+
+.dashboard-chart-area {
+  opacity: 0;
+  animation: dashboard-chart-area .9s ease-out both;
+}
+
+.dashboard-chart-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dashboard-chart-draw 1.6s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.dashboard-chart-point {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dashboard-point-pop .45s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.dashboard-ring-progress {
+  animation: dashboard-ring-fill 1.5s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.dashboard-pipeline-bar {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: dashboard-bar-grow .9s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-stat-card,
+  .dashboard-stat-glow,
+  .dashboard-chart-area,
+  .dashboard-chart-line,
+  .dashboard-chart-point,
+  .dashboard-ring-progress,
+  .dashboard-pipeline-bar {
+    animation: none !important;
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: none;
+  }
+}

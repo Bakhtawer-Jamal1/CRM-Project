@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export default function FeatureList({ title, subtitle, api, fields, columns, searchKeys }) {
-  const singular = { Contacts: 'Contact', Companies: 'Company', Deals: 'Deal', Tasks: 'Task' }[title] || title;
+  const singular = { Contacts: 'Contact', Companies: 'Company', Deals: 'Deal', Employees: 'Employee', Tasks: 'Task' }[title] || title;
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);

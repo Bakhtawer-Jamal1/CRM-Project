@@ -5,7 +5,7 @@ import { useAuth, getInitials } from '../../context/AuthContext';
 import NotificationsPanel from '../../features/notifications/NotificationsPanel';
 
 const groups = [
-  { title: 'WORKSPACE', links: [['/dashboard', 'Overview', '◫'], ['/contacts', 'Contacts', '◉'], ['/companies', 'Companies', '▦'], ['/deals', 'Deals', '◇'], ['/tasks', 'Tasks', '✓']] },
+  { title: 'WORKSPACE', links: [['/dashboard', 'Overview', '◫'], ['/contacts', 'Contacts', '◉'], ['/companies', 'Companies', '▦'], ['/deals', 'Deals', '◇'], ['/employees', 'Employees', '♙'], ['/tasks', 'Tasks', '✓']] },
   { title: 'MANAGE', links: [['/profile', 'Profile', '☺'], ['/settings', 'Settings', '⚙']] },
 ];
 const pageNames = Object.fromEntries(groups.flatMap(group => group.links.map(([path, name]) => [path, name])));

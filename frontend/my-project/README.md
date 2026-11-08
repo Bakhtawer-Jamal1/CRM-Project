@@ -2,7 +2,7 @@
 
 The CRM runs entirely in the browser; it does not require a backend or database.
 Sign in with any email address and password to open a local session. Contacts,
-companies, deals, tasks, and profile details are saved in this browser's
+companies, deals, employees, tasks, and profile details are saved in this browser's
 `localStorage`, scoped to the signed-in email address.
 
 ## Run locally
